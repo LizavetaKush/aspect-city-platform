@@ -1,0 +1,204 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CLIENT
+  REALTOR
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+}
+
+enum PropertyType {
+  APARTMENT
+  HOUSE
+  COMMERCIAL
+}
+
+enum DealType {
+  SALE
+  RENT
+}
+
+enum PropertyStatus {
+  ACTIVE
+  SOLD
+  RENTED
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id              String           @id @default(cuid())
+  role            Role
+  name            String
+  email           String           @unique
+  passwordHash    String
+  phone           String
+  avatarUrl       String?
+  licensePhotoUrl String?
+  status          UserStatus       @default(ACTIVE)
+  blockReason     String?
+  registeredAt    DateTime         @default(now())
+  lastActiveAt    DateTime?
+  properties      Property[]       @relation("RealtorProperties")
+  clientRequests  ViewingRequest[] @relation("ClientRequests")
+  realtorRequests ViewingRequest[] @relation("RealtorRequests")
+  favorites       Favorite[]
+  activityLogs    ActivityLog[]
+  clientMessages  ChatMessage[]   @relation("ClientChatMessages")
+  realtorMessages ChatMessage[]   @relation("RealtorChatMessages")
+  sentMessages    ChatMessage[]   @relation("SentChatMessages")
+  reports         Report[]
+
+  @@index([role])
+  @@index([status])
+}
+
+model Property {
+  id              String              @id @default(cuid())
+  title           String
+  type            PropertyType
+  dealType        DealType
+  status          PropertyStatus      @default(ACTIVE)
+  rooms           Int
+  price           Int
+  area            Float
+  district        String
+  address         String
+  description     String
+  latitude        Float
+  longitude       Float
+  views           Int                 @default(0)
+  realtorId       String
+  realtor         User                @relation("RealtorProperties", fields: [realtorId], references: [id])
+  photos          PropertyPhoto[]
+  favorites       Favorite[]
+  viewingRequests ViewingRequest[]
+  priceHistory    PriceHistory[]
+  notes           RealtorNote?
+  checklist       ShowChecklistItem[]
+  chatMessages    ChatMessage[]
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  @@index([type])
+  @@index([status])
+  @@index([district])
+  @@index([realtorId])
+}
+
+model PropertyPhoto {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  url        String
+  position   Int
+}
+
+model Favorite {
+  id         String   @id @default(cuid())
+  userId     String
+  propertyId String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, propertyId])
+}
+
+model ViewingRequest {
+  id          String        @id @default(cuid())
+  clientId    String
+  realtorId   String
+  propertyId  String
+  client      User          @relation("ClientRequests", fields: [clientId], references: [id])
+  realtor     User          @relation("RealtorRequests", fields: [realtorId], references: [id])
+  property    Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  scheduledAt DateTime
+  status      RequestStatus @default(PENDING)
+  comment     String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([clientId])
+  @@index([realtorId])
+  @@index([propertyId])
+}
+
+model PriceHistory {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  price      Int
+  changedAt  DateTime @default(now())
+}
+
+model RealtorNote {
+  id                String   @id @default(cuid())
+  propertyId        String   @unique
+  property          Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  internalComment   String?
+  ownerConversation String?
+  personalRating    Int      @default(3)
+  reminderAt        DateTime?
+  fileLinks         Json     @default("[]")
+}
+
+model ShowChecklistItem {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  title      String
+  done       Boolean  @default(false)
+  position   Int
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String
+  createdAt DateTime @default(now())
+}
+
+model ChatMessage {
+  id         String    @id @default(cuid())
+  clientId   String
+  realtorId  String
+  propertyId String?
+  senderId   String
+  client     User      @relation("ClientChatMessages", fields: [clientId], references: [id], onDelete: Cascade)
+  realtor    User      @relation("RealtorChatMessages", fields: [realtorId], references: [id], onDelete: Cascade)
+  sender     User      @relation("SentChatMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  property   Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  text       String
+  readAt     DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([clientId])
+  @@index([realtorId])
+  @@index([propertyId])
+}
+
+model Report {
+  id            String   @id @default(cuid())
+  requestedById String
+  requestedBy   User     @relation(fields: [requestedById], references: [id], onDelete: Cascade)
+  type          String
+  fileName      String
+  createdAt     DateTime @default(now())
+}

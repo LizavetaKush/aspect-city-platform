@@ -1,0 +1,20 @@
+{
+  "name": "aspect-city-real-estate-platform",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Online platform for a real estate agency in Mogilev",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm.cmd --workspace client run dev\" \"npm.cmd --workspace server run dev\"",
+    "dev:client": "npm.cmd --workspace client run dev",
+    "dev:server": "npm.cmd --workspace server run dev",
+    "build": "npm.cmd --workspace client run build",
+    "preview": "npm.cmd --workspace client run preview"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
