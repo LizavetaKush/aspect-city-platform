@@ -1,0 +1,26 @@
+SHAREWARE LICENSE — TRIAL VERSION
+
+Copyright (c) 2026 Kushners Elizaveta Vladimirovna. All Rights Reserved.
+
+This software is distributed as Shareware (Trial Version).
+You may evaluate this software free of charge for a period of 30 days.
+
+TRIAL RESTRICTIONS:
+- The trial version limits the number of property listings to 5.
+- The trial version disables PDF export and analytics reports.
+- After 30 days, continued use requires purchase of a full license.
+
+FULL VERSION:
+- Unlimited property listings.
+- All features enabled (PDF export, analytics, integrations).
+- Priority technical support.
+
+PROHIBITED:
+- You may NOT modify, decompile, or reverse engineer this software.
+- You may NOT redistribute or resell the trial or full version.
+- You may NOT remove copyright notices.
+
+DISCLAIMER:
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+
+To purchase a full license, contact: [email]

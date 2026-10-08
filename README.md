@@ -65,3 +65,19 @@ REST API будет доступен на `http://localhost:4000/api`.
 ## License
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
+## License
+
+This software is distributed as **Shareware (Trial Version)** —
+free to evaluate for 30 days with limited functionality.
+
+After the trial period, a paid license is required for continued use.
+
+See [LICENSE.txt](LICENSE.txt) for full terms.
