@@ -1,0 +1,14 @@
+FREE FOR PERSONAL AND EDUCATIONAL USE
+
+Copyright (c) 2026 Kushners Elizaveta Vladimirovna. All Rights Reserved.
+
+This software is provided free of charge for personal and educational use.
+
+RESTRICTIONS:
+- You may NOT modify, adapt, translate, reverse engineer, decompile,
+  or disassemble this software.
+- You may NOT redistribute, sublicense, or sell this software.
+- You may NOT remove or alter any copyright notices.
+
+DISCLAIMER:
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
