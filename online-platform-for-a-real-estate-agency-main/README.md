@@ -61,3 +61,7 @@ REST API будет доступен на `http://localhost:4000/api`.
 - Prisma-схема с 10 связанными таблицами и seed-скриптом на 200+ записей.
 
 Подробная выжимка требований из документов лежит в [docs/requirements.md](docs/requirements.md).
+
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
